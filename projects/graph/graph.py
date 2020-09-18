@@ -29,19 +29,40 @@ class Stack(): # basic Stack structure
     def size(self):
         return len(self.stack)
 
+### Graph ####
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
 
     def __init__(self):
         self.vertices = {}
 
-    def add_vertex(self, vertex):
+    def add_vertex(self, vertex_id): # O(1) time complexity
         """
         Add a vertex to the graph.
         """
-        self.vertices[vertex] = set() 
+        self.vertices[vertex_id] = set() 
 
-    def add_edge(self, v1, v2):
+        # additional options (class)
+        '''
+        if vertex_id not in self.vertices:
+            self.vertices[vertex_id] = {}
+
+            else:
+                return "Vertex is already in Graph"
+        '''
+
+    def delete_vertex(self, vertex_id): # O(n) time complexity
+        pass
+        # delete the key value pair 
+        
+        # find all references to this vertex 
+
+    def delete_edge(self, v1, v2): 
+        pass
+        # access v1, remove v2
+        # access v2, remove v1
+
+    def add_edge(self, v1, v2): # O(1) time complexity
         """
         Add a directed edge to the graph. from V1-> to V2 
         """
@@ -49,6 +70,18 @@ class Graph:
             self.vertices[v1].add(v2) # # add connection from v1 to v2 
         else: # else 
             print("That vertex does not exist")
+
+        # additional options (class)
+        """
+        if (v1 or v2) not in self.vertices:
+            return "vertex does exist"
+            self.vertices[v1].add(v2)
+        ###
+        if v1 in self.vertices and v2 in self.vertices:
+            self.vertices{v1}.add(v2)
+        else:
+            print("One of these vertices does not exist)
+        """
             
     def bft(self, starting_vertex):
         """
@@ -105,7 +138,7 @@ class Graph:
             for neighbor in self.vertices[starting_vertex]: # loop through each neighbor 
                 self.dft_recursive(neighbor, visited) # call the dft_recursive method on each neighbor 
 
-    def bfs(self, starting_vertex, destination_vertex):
+    def bfs(self, starting_vertex, destination_vertex): # great if you know to result is somewhere close to the root/start 
         """
         Return a list containing the shortest path from
         starting_vertex to destination_vertex in
@@ -131,7 +164,7 @@ class Graph:
                     path_copy.append(neighbor) # append each neighbor to the back of the path copy 
                     q.enqueue(path_copy) # enqueue the path copy to the queue 
 
-    def dfs(self, starting_vertex, destination_vertex):
+    def dfs(self, starting_vertex, destination_vertex): # great for if you know the start and end, like a maze with 1 entry/1 exit
         """
         Return a list containing a path from
         starting_vertex to destination_vertex in
@@ -258,3 +291,96 @@ if __name__ == '__main__':
     print(graph.dfs(1, 6))
     print('-- DFS Recursive --')
     print(graph.dfs_recursive(1, 6))
+
+"""
+If you can make a function to return the neighbors of this thing, you can treat the problem as a graphs problem 
+
+If you can figure out when this teim is and is not "related" to other items, graphs problem --> graphs algorithms
+
+How to Solve (Almost) Any Graphs Prblem
+
+1. Describle the probme using graphs terminology
+- What are your nodes? 
+- What are your edges? aka when is a node connected to another node? 
+- Are there connected components?
+
+2. Build your graph Or write your getNeighbors() function 
+
+3. Choose your algorithm 
+- BFT, DFT, BFS, DFS
+
+Given two words (begin_word and end_word), and a dictionary's word list, 
+return the shortest transformation sequence from begin_word to end_word, such that:
+Only one letter can be changed at a time.
+
+Each transformed word must exist in the word list. Note that begin_word is not a transformed word.
+return None if it can't be done
+all words are lowercase (or you can make them lowercase)
+
+
+return None if it cant be done 
+all words are lowercase (or yo ucan make them lowercase)
+
+
+1. Graphs terminology
+- Nodes: words!
+- Edges: a word is connected to another world if they share all letters except one 
+
+2. getNeighbors - graph optional 
+
+3. Choose algoritm: BFS 
+
+
+"""
+import string
+def find_neighbors(word, wordList):
+    # for every letter in the word. substitute a ltter of the alphabet: O(len(word) * 26)
+    # check if this new word is in our giant word list: O(1)
+    # if so, its a neighbor!
+    for i in range(len(word)):
+        for letter in string.ascii_lowercase:
+            candidate = word[:i] + letter + word[i+1:]
+            if candidate in wordList:
+
+    """
+def find_neighbors_alt(something):
+    same_length = [word for word in all_the_words if len(word) == len(something)]
+    matches = []
+
+    # count how many letters are the same to see if each word is an edge 
+    for word in same_length:
+        chars = split(word)
+        match = split(something)
+        count = 0
+        for i in range(0, len(chars)):
+            if chars[i] == match[i]:
+                count += 1
+        if count == len(something) - 1:
+            matches.append(word)
+    return matches
+    """
+def bfs(self, start_word, end_word): # great if you know to result is somewhere close to the root/start 
+        """
+        Return a list containing the shortest path from
+        starting_vertex to destination_vertex in
+        breath-first order.
+        """
+        visited = set() # create an empty 'set' to store visisted vertex, set sorts 
+
+        q = Queue() # create an empty Queue
+        q.enqueue([start_word]) # set the starting_vertex with enqueue 
+
+        while q.size() > 0:
+            path = q.dequeue() # dequeue and store first path
+            v = path[-1] # store the vertex from the end of path 
+
+            if v == end_word: # if v is equal to the destination_vertex
+                return path # return the path 
+
+            if v not in visited: # if v has not been visited yet 
+                visited.add(v) # add v to the vistied set 
+
+                for neighbor in self.vertices[v]: # loop through the neighbors 
+                    path_copy = list(path) # make a copy of the path 
+                    path_copy.append(neighbor) # append each neighbor to the back of the path copy 
+                    q.enqueue(path_copy) # enqueue the path copy to the queue 
