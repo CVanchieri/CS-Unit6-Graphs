@@ -293,22 +293,22 @@ if __name__ == '__main__':
     print(graph.dfs_recursive(1, 6))
 
 """
-If you can make a function to return the neighbors of this thing, you can treat the problem as a graphs problem 
+- If you can make a function to return the neighbors of this thing, you can treat the problem as a graphs problem 
 
-If you can figure out when this teim is and is not "related" to other items, graphs problem --> graphs algorithms
+- If you can figure out when this teim is and is not "related" to other items, graphs problem --> graphs algorithms
 
-How to Solve (Almost) Any Graphs Prblem
-
+### How to Solve (Almost) any Graphs problem ###
 1. Describle the probme using graphs terminology
 - What are your nodes? 
 - What are your edges? aka when is a node connected to another node? 
 - Are there connected components?
 
-2. Build your graph Or write your getNeighbors() function 
+2. Build your graph or write your getNeighbors() function 
 
 3. Choose your algorithm 
 - BFT, DFT, BFS, DFS
 
+### Example Problem ###
 Given two words (begin_word and end_word), and a dictionary's word list, 
 return the shortest transformation sequence from begin_word to end_word, such that:
 Only one letter can be changed at a time.
@@ -317,10 +317,9 @@ Each transformed word must exist in the word list. Note that begin_word is not a
 return None if it can't be done
 all words are lowercase (or you can make them lowercase)
 
-
+### Solution ###
 return None if it cant be done 
 all words are lowercase (or yo ucan make them lowercase)
-
 
 1. Graphs terminology
 - Nodes: words!
@@ -329,36 +328,32 @@ all words are lowercase (or yo ucan make them lowercase)
 2. getNeighbors - graph optional 
 
 3. Choose algoritm: BFS 
-
-
 """
+### Find Neighbors ### 
 import string
 def find_neighbors(word, wordList):
     # for every letter in the word. substitute a ltter of the alphabet: O(len(word) * 26)
     # check if this new word is in our giant word list: O(1)
     # if so, its a neighbor!
+    neighbors = []
     for i in range(len(word)):
         for letter in string.ascii_lowercase:
             candidate = word[:i] + letter + word[i+1:]
+            '''
+            ### class option ###
+            word_list = list(word)
+            word_list[i] = alpha_letter 
+            maybe_neighbor = "".join(word_list)
+            if maybe_neighbor in word_set and maybe_neighbor != word:
+                neighbors.append(maybe_neighbor)
+
+    return neighbors
+            '''
             if candidate in wordList:
+                neighbors.append(candidate)
+    return neighbors
 
-    """
-def find_neighbors_alt(something):
-    same_length = [word for word in all_the_words if len(word) == len(something)]
-    matches = []
-
-    # count how many letters are the same to see if each word is an edge 
-    for word in same_length:
-        chars = split(word)
-        match = split(something)
-        count = 0
-        for i in range(0, len(chars)):
-            if chars[i] == match[i]:
-                count += 1
-        if count == len(something) - 1:
-            matches.append(word)
-    return matches
-    """
+### Breadth First Traversal ###
 def bfs(self, start_word, end_word): # great if you know to result is somewhere close to the root/start 
         """
         Return a list containing the shortest path from
