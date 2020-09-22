@@ -45,9 +45,12 @@ class SocialGraph:
         # !!!! IMPLEMENT ME
 
         # Add users
+        for i in range(num_users):
+            self.add_user(i)
 
         # Create friendships
-
+        # you could create a list with all possible friendship combinations 
+        ## [(1,2)], ()
     def get_all_social_paths(self, user_id):
         """
         Takes a user's user_id as an argument

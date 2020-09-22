@@ -88,3 +88,12 @@ print("------")
 print(f"Shortest Path between {start} and {end}: ", route_graph.get_shortest_path(start, end))
 
 
+### Search for conected componenets ###
+
+# loop each node in the graph
+## has it been explored? 
+### if no perform BFS, start here
+#### loop intil all the nodes you reach are connected 
+
+### if yes, skip and go to next
+

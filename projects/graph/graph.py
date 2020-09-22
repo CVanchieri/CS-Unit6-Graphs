@@ -128,7 +128,7 @@ class Graph:
         beginning from starting_vertex.
         This should be done using recursion.
         """
-        if visited is None: # if visited is not empty
+        if visited is None: # if visited is None
             visited = set() # create an empty 'set' to store visisted vertex, set sorts 
 
         if starting_vertex not in visited: # if starting_vertex has not been visited yet
@@ -163,7 +163,7 @@ class Graph:
                     path_copy = list(path) # make a copy of the path 
                     path_copy.append(neighbor) # append each neighbor to the back of the path copy 
                     q.enqueue(path_copy) # enqueue the path copy to the queue 
-
+    
     def dfs(self, starting_vertex, destination_vertex): # great for if you know the start and end, like a maze with 1 entry/1 exit
         """
         Return a list containing a path from
