@@ -46,6 +46,14 @@ class SocialGraph:
         self.users[self.last_id] = User(name)
         self.friendships[self.last_id] = set()
 
+    def fisher_yates(self, arr):
+        copy_arr = list(arr)
+        for idx in range(len(copy_arr)):
+            rand_index = random.randint(0, len(copy_arr) -1)
+            copry_arr[idx], copy_arr[rand_index] = copy_arr[rand_index], copy_arr[idx]
+        return copy_arr
+
+
     def populate_graph(self, num_users, avg_friendships): # populate_graph method
         """
         Takes a number of users and an average number of friendships
@@ -72,6 +80,28 @@ class SocialGraph:
 
         for i in randoms: # loop through randoms and use add_friendship method to find for connections.
             self.add_friendship(i[0], i[1])
+        '''
+        #### class solution ###
+        for i in range(num_users):
+            self.add_user(i)
+
+        # create friendships 
+        # you could create a list with all possible friendship combinations 
+        all_friend_combos = []
+        for person in range(1, num_users):
+            for friend in range(person + 1, num_users + 1):
+                all_friend_combos.append((person, friend))
+
+        # shuffle the list 
+        shuffled_combos = self.fisher_yates(all_friend_combos)
+ 
+        total_friendships = num_users * avg_friendships 
+        elements_needed = total_friendships // 2 
+        combos_to_make = shuffled_combos[:elements_needed]
+
+        for friendship in combos_to_make:
+            self.add_friendship(friendship[0], friendship[1])
+        '''
 
     def bfs(self, start, end): # breath-first seach method, 'shortest path'
         """
@@ -99,7 +129,7 @@ class SocialGraph:
                     path_copy = list(path) # make a copy of the path 
                     path_copy.append(neighbor) # append each neighbor to the back of the path copy 
                     q.enqueue(path_copy) # enqueue the path copy to the queue 
-
+    '''
     def get_all_social_paths(self, user_id): # get_all_social_paths method
         """
         Takes a user's user_id as an argument
@@ -116,9 +146,49 @@ class SocialGraph:
                 visited[i] = self.bfs(user_id, i) # add the user_id with self.bfs to visited 
         return visited
 
+    '''
+
+    def linear_populate_graph(self, num_users, avg_friendships):
+        
+    ### class solution ###
+    # breath first traversal 
+    def get_all_social_paths(self, user_id):
+        visited = {}  # Note that this is a dictionary, not a set
+        q = Queue()
+    
+        # your code
+        q.enqueue([user_id])
+
+        while q.size() > 0:
+            current_path = q.dequeue()
+            current_user = current_path[-1]
+
+            if current_user not in visited:
+                visited[current_user] = current_path
+
+                friends = self.friendships[current_user]
+
+                for friend in friends:
+                    path_copy = list(current_path)
+                    path_copy.append(friend)
+                    q.enqueue(path_copy)
+
+        return visited
+
+# 3 from Kevin Bacon, 1 from Junior Bacon 
+        
 if __name__ == '__main__':
     sg = SocialGraph()
-    sg.populate_graph(10, 2)
+    sg.populate_graph(1000, 2)
+    print('--- friendships ---')
     print(sg.friendships)
     connections = sg.get_all_social_paths(1)
+    print('--- connections ---')
     print(connections)
+
+    ## connections dict holds everyone in 1's extended social network 
+    print(f'percent of users in extended social network: {len(connections) / 1000 * 100}%') # percent of users in extended social network
+
+    ## how could you improve this model?
+    # chaining 
+    # skew numbers towards a few individuals

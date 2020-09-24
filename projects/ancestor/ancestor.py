@@ -43,3 +43,38 @@ def earliest_ancestor(ancestors, starting_node): # depth first search (stack)
             earliest_ancestor = -1 # remove 1 from the earliest_ancestor 
 
     return earliest_ancestor # return the earliest ancestor 
+'''
+### class solution ### 
+
+def getParents(ancestors, node):
+    parents = []
+    for pair in ancestors:
+        if pair[1] == node:
+            parents.append(pair[0])
+
+    return parents 
+
+def dft_recursive(ancestors, node, distance):
+    parents = getParents(ancestors, node)
+
+    aged_one = (node, distance)
+
+    for parent in parents:
+        pair = dft_recursive(ancestors, parent, distance + 1)
+        if pair[1] > aged_one[1]:
+            aged_one = pair 
+
+    return aged_one
+
+def earliest_ancestor(ancestors, starting_node, distance=0):
+    aged_one = dft_recursive(ancestors, starting_node, distance)
+
+    if aged_one[0] == starting_node:
+        return -1
+
+    return aged_one[0]
+
+
+test_ancestors = [(1, 3), (2, 3), (3, 6), (5, 6), (5, 7), (4, 5), (4, 8), (8, 9), (11, 8), (10, 1)]
+print(earliest_ancestor(ancestors, 1))
+'''
