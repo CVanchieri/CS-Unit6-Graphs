@@ -124,15 +124,15 @@ while unexplored: # loop while unexplored exits set is not empty
 
         if new not in explored: # if the new room is not in the explored rooms dict 
             explored[new] = {x: '?' for x in player.current_room.get_exits()} # find any exists from the current room 
-        #update current_room and explored
+
         explored[current_room][move] = new # set the current room in explored rooms dict to the new room 
-        explored[new][inverted(move)] = current_room # 
-        # add unexplored rooms in new room to unexplored
+        explored[new][inverted(move)] = current_room # set the explored dict with the current room 
+
         for exit, direction in explored[new].items(): # loop through the new room in the explored rooms dict items
 
             if direction == '?': # if there is a '?' for a direction
                 unexplored.add(f'Room {new}: {exit}') # add the new rooms exit direction to the unexplored exits set 
-        # remove the newly explored direction from unexplored rooms
+
         if f'Room {new}: {inverted(move)}' in unexplored: # if the new room invereted move is in the unexplored exits set 
             unexplored.remove(f'Room {new}: {inverted(move)}') # remove the new room from the unexplored exists set
 
@@ -142,15 +142,15 @@ while unexplored: # loop while unexplored exits set is not empty
         q = Queue() # set the empty queue
 
         for exit, room in explored[current].items(): # loop through explored rooms current room items
-            # put exits and room into the queue
+
             q.put([[exit, room]]) # put the exit direction and room in the queue
 
         while not q.empty(): # loop while the queue is not empty 
             path = q.get() # get the value from the queue and store it
             v = path[-1] # store the path without last element 
-            # is there an unexplored exit in the current room? do this...
+
             if '?' in [room for exit, room in explored[v[1]].items()]: # if there is a '?' unexplored exit in the current room
-                # go back and add it to traversal_path
+
                 for exit, room in path: # loop through paths room exit direction
                     player.travel(exit) # move the player 
                     traversal_path.append(exit) # append the exit direction to the traversal path list 
